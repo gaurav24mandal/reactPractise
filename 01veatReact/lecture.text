@@ -1,0 +1,19 @@
+starting with react 
+1  github repo
+
+git init 
+do one thing go to github create a repo name  it and all the steps will be  provided there 
+
+2 
+go to react dev site 
+
+3 
+no going  to use create  react app as it cra is  more bulky and  install all to dependencies 
+which are not  required 
+
+4 going to  create our  project with vite 
+npm create vite@latest  
+
+6 imp 
+always  create  component / fucntion (both are same )
+strt with capital letter
