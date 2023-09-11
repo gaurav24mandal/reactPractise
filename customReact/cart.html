@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <style>
+        .password-strength {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Password Generator</h1>
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter password">
+    <p class="password-requirements">
+        Password must:
+        <ul>
+            <li>Contain at least 8 characters</li>
+            <li>Include uppercase and lowercase letters</li>
+            <li>Contain at least one number</li>
+            <li>Include at least one special symbol (!, @, #, $, etc.)</li>
+        </ul>
+    </p>
+    <button id="generate-password">Generate Password</button>
+    <div class="password-strength">
+        Password Strength: <span id="password-strength-indicator"></span>
+    </div>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const passwordRequirements = document.querySelector('.password-requirements');
+        const passwordStrengthIndicator = document.getElementById('password-strength-indicator');
+        const generatePasswordButton = document.getElementById('generate-password');
+
+        passwordInput.addEventListener('input', updatePasswordStrength);
+
+        function updatePasswordStrength() {
+            const password = passwordInput.value;
+
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasLowerCase = /[a-z]/.test(password);
+            const hasNumber = /\d/.test(password);
+            const hasSpecialSymbol = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password);
+
+            const isLengthValid = password.length >= 8;
+            const isUpperCaseValid = hasUpperCase;
+            const isLowerCaseValid = hasLowerCase;
+            const isNumberValid = hasNumber;
+            const isSymbolValid = hasSpecialSymbol;
+
+            const strength = (isLengthValid + isUpperCaseValid + isLowerCaseValid + isNumberValid + isSymbolValid) * 20;
+            passwordStrengthIndicator.innerText = `${strength}%`;
+
+            // Add or remove classes for visual feedback
+            passwordStrengthIndicator.classList.remove('weak', 'medium', 'strong');
+            if (strength < 40) {
+                passwordStrengthIndicator.classList.add('weak');
+            } else if (strength < 80) {
+                passwordStrengthIndicator.classList.add('medium');
+            } else {
+                passwordStrengthIndicator.classList.add('strong');
+            }
+        }
+
+        generatePasswordButton.addEventListener('click', generatePassword);
+
+        function generatePassword() {
+            const length = 12; // You can adjust the desired length
+            const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}[]:;<>,.?~\\-';
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset.charAt(randomIndex);
+            }
+            passwordInput.value = password;
+            updatePasswordStrength();
+        }
+    </script>
+</body>
+</html>
